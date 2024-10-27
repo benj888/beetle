@@ -8,7 +8,7 @@ interface Product {
   beetleSize: string;
   parent:string;
   price: string;
-  NumberGroups: string;
+  NumberGroups: number;
   imageUrl: string[];
   note:string;
 }
@@ -24,7 +24,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "73*40",
     parent:"",
     price: "1000",
-    NumberGroups: "1",
+    NumberGroups: 1,
     imageUrl: ["/product1/product1_0.jpg", "/product1/product1_1.jpg","/product1/product1_2.jpg"],
     note:"贈二手日規滑蓋盒"
   },
@@ -38,7 +38,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "82*48",
     parent:"",
     price: "1000",
-    NumberGroups: "1",
+    NumberGroups: 1,
     imageUrl: ["/product2/product2_0.jpg","/product2/product2_1.jpg"],
     note:"公左牙磨損 缺右前鉤 母蟲+300"
   },
@@ -52,7 +52,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "74*all size",
     parent:"",
     price: "600",
-    NumberGroups: "1",
+    NumberGroups: 1,
     imageUrl: ["/product3.jpg"],
     note:""
   },
@@ -66,7 +66,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "55*all size",
     parent:"",
     price: "500",
-    NumberGroups: "1",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:""
   },
@@ -80,7 +80,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "56*36",
     parent:"",
     price: "500",
-    NumberGroups: "1",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:""
   },
@@ -94,7 +94,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "83*53",
     parent: "90*53",
     price: "700",
-    NumberGroups: "N",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:""
   },
@@ -109,7 +109,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "L3",
     parent:"",
     price: "400/1隻",
-    NumberGroups: "N",
+    NumberGroups: 1,
     imageUrl: ["/product5.jpg"],
     note:""
   },
@@ -124,7 +124,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "L1~L2",
     parent: "83*49",
     price: "200/5隻",
-    NumberGroups: "10",
+    NumberGroups: 1,
     imageUrl: ["/product5.jpg"],
     note:""
   },
@@ -138,7 +138,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "L1",
     parent: "",
     price: " 100/隻 500/6隻",
-    NumberGroups: "N",
+    NumberGroups: 1,
     imageUrl: ["/product5.jpg"],
     note:"鍬顏一號+育成土 穩定進食中"
   },
@@ -152,7 +152,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "",
     parent: "",
     price: "",
-    NumberGroups: "",
+    NumberGroups: 1,
     imageUrl: ["/product5.jpg"],
     note:"繁殖中"
   },
@@ -166,7 +166,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "",
     parent: "",
     price: "",
-    NumberGroups: "",
+    NumberGroups: 1,
     imageUrl: ["/product5.jpg"],
     note:"繁殖中"
   },
@@ -180,7 +180,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "",
     parent: "",
     price: "",
-    NumberGroups: "",
+    NumberGroups: 1,
     imageUrl: ["/product5.jpg"],
     note:"繁殖中"
   },
@@ -194,7 +194,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "94",
     parent: "",
     price: "800",
-    NumberGroups: "",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:"完整有修復"
   },
@@ -208,7 +208,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "66",
     parent: "",
     price: "500",
-    NumberGroups: "",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:"完整無修復"
   },
@@ -222,7 +222,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "72",
     parent: "",
     price: "300",
-    NumberGroups: "",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:"完整無修復"
   },
@@ -236,7 +236,7 @@ export const Lifeproducts: Product[] = [
     beetleSize: "93",
     parent: "",
     price: "1200",
-    NumberGroups: "1",
+    NumberGroups: 1,
     imageUrl: ["/product4.jpg"],
     note:"完整無修復/胸寬36+"
   },
