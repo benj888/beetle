@@ -1,4 +1,4 @@
-import { MainPage } from "@/component/MainPage"; 
+import { MainPage } from "@/components/MainPage"; 
 import { SessionProvider } from "next-auth/react";
 
 const Page = () => {

@@ -1,4 +1,4 @@
-import { Lifeproducts } from "@/component/data";
+import { Lifeproducts } from "@/components/data";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Snackbar from "@mui/material/Snackbar";
 export const MainPage = () => {
   const router = useRouter();
-  const [clickCount, setClickCount] = useState(1);
+
   const [open, setOpen] = useState(false);
   const categories = ["國內成蟲", "國外成蟲", "國內幼蟲", "國外幼蟲", "標本"];
 
@@ -31,16 +31,23 @@ export const MainPage = () => {
     } else if (category === "標本") {
       setFilter(Lifeproducts.filter((idfilter) => idfilter.id === 5));
     } else {
-      setFilter(Lifeproducts);
+      // setFilter(Lifeproducts);
+      true;
     }
   };
 
   const { data: session } = useSession();
   const user = session?.user;
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCartCount(cart.length);
+  }, []);
 
   useEffect(() => {
     setShowImages(Array(filter.length).fill(0));
-  }, filter);
+  }, [filter.length]);
 
   const handleImageiterator = (index: number) => {
     setShowImages((prevImages) => {
@@ -63,6 +70,31 @@ export const MainPage = () => {
     setOpen(false);
   };
 
+  const handleAddtoCart = (index: number) => {
+    const addtoCart = filter[index];
+
+    if (!user) {
+      alert("請先登入帳號");
+    } else {
+      const cart = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart") as string)
+        : [];
+
+      const checkcartItem = cart.some(
+        (item: { name: string; id: number }) =>
+          item.name === addtoCart.name && item.id === addtoCart.id
+      );
+
+      if (checkcartItem) {
+        alert("商品已在購物車");
+      } else {
+        cart.push(addtoCart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        setCartCount(cart.length);
+        handleClick();
+      }
+    }
+  };
   return (
     <div className="bg-[#f5f5f5]  flex p-4 h-full ">
       <div className="pt-10 flex flex-col bg-white sm:w-20 md:w-40 gap-6 text-xl rounded-md border items-center ">
@@ -128,24 +160,25 @@ export const MainPage = () => {
             }}
           >
             <ShoppingCartIcon sx={{ fontSize: 40, color: "red" }} />
+            <span className="absolute top-0 right-0  w-5 h-5 flex items-end justify-end text-xl rounded-full">
+              {cartCount}
+            </span>
           </Fab>
         </div>
 
-        <div className="  bg-white rounded-md ml-4 grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-y-4 gap-x-10  border  p-8 ">
+        <div className=" bg-white rounded-md ml-4 grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-y-4   border  p-8 ">
           {ArraySpace.map((_, index) => (
             <div className="w-80 " key={`space_${index}`}>
-              <div className="w-80 h-64 border  items-center justify-center">
+              <div className="w-80  border  items-center justify-center rounded-md shadow-md p-2">
                 <img
                   src={filter[index].imageUrl[showImages[index]]}
-                  className=" w-full h-full"
+                  className="aspect-[1/1] "
                   onClick={() => {
                     {
                       handleImageiterator(index);
                     }
                   }}
                 />
-              </div>
-              <div className="border w-80 ">
                 <p>名稱:{filter[index].name}</p>
                 <p>學名:{filter[index].ScientificName}</p>
                 <p>產地:{filter[index].Origin}</p>
@@ -154,46 +187,35 @@ export const MainPage = () => {
                 <p>尺寸/齡數:{filter[index].beetleSize}</p>
                 {filter[index].id !== 5 && <p>親代:{filter[index].parent}</p>}
                 <p>金額:{filter[index].price}</p>
-                <p>數量:{filter[index].NumberGroups}</p>
-                <div className="flex justify-center">
-                  <Fab
-                    variant="extended"
-                    className="flex-1"
-                    sx={{
-                      backgroundColor: "#0dcee6",
-                    }}
-                    onClick={() => {
-                      setClickCount((clicknumber) => clicknumber + 1);
-
-                      const addtoCart = filter[index];
-
-                      if (clickCount > addtoCart.NumberGroups) {
-                        alert("");
-                      } 
-                      else {
-                        const cart =
-                          JSON.parse(localStorage.getItem("cart") as string) ||
-                          [];
-
-                        cart.push(addtoCart);
-
-                        localStorage.setItem("cart", JSON.stringify(cart));
-                        handleClick();
-                        // alert("商品已加入購物車");
-                      }
-                    }}
-                  >
-                    <Snackbar
-                      open={open}
-                      autoHideDuration={3000}
-                      onClose={handleClose}
-                      message="商品已加入購物車"
-                    />
-                    <AddIcon /> 加入購物車
-                  </Fab>
-                </div>
-                <div className="border border-black h-20 ">
-                  備註:{filter[index].note}
+                <p>剩餘數量:{filter[index].NumberGroups}</p>
+                <div className=" w-82 ">
+                  <div className="flex justify-center">
+                    <Fab
+                      variant="extended"
+                      className="flex-1"
+                      sx={{
+                        backgroundColor: "#0dcee6",
+                      }}
+                      onClick={() => {
+                        handleAddtoCart(index);
+                      }}
+                    >
+                      <Snackbar
+                        open={open}
+                        autoHideDuration={1000}
+                        onClose={handleClose}
+                        message="商品已加入購物車"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClose(e, "加入購物車");
+                        }}
+                      />
+                      <AddIcon /> 加入購物車
+                    </Fab>
+                  </div>
+                  <div className="border border-black h-20 ">
+                    備註:{filter[index].note}
+                  </div>
                 </div>
               </div>
             </div>
