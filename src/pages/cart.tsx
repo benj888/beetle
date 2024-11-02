@@ -4,12 +4,26 @@ import CloseIcon from "@mui/icons-material/Close";
 import Fab from "@mui/material/Fab";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
-
+import { TextField, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
 
 const Cart = () => {
+  const [sent, setSent] = useState("");
+
+  const [name, setName] = useState("");
+
+  const [phone, setPhone] = useState("");
+
+  const [address, setAddress] = useState("");
+
   const router = useRouter();
+
+  const [note, setNote] = useState("");
 
   const [cartCheckOutItem, setCartCheckOutItem] = useState<Product[]>([]);
 
@@ -26,6 +40,10 @@ const Cart = () => {
       localStorage.setItem("totalPrice", JSON.stringify(currenttotal));
     }
   }, []);
+
+  const handleSelectSent = (event: SelectChangeEvent) => {
+    setSent(event.target.value);
+  };
 
   const calculateTotalPrice = (price: Product[]) => {
     return price.reduce(
@@ -62,7 +80,7 @@ const Cart = () => {
   const handleMinusItem = (index: number) => {
     const updateCart = [...cartCheckOutItem];
 
-    if ( updateCart[index].quantity === 1 ) {
+    if (updateCart[index].quantity === 1) {
       handleDeleteItem(index);
     } else {
       updateCart[index].quantity -= 1;
@@ -75,8 +93,8 @@ const Cart = () => {
   };
 
   return (
-    <div className="h-full bg-[#f5f5f5] flex overflow-auto ">
-      <div className=" w-2/3 ">
+    <div className="h-auto bg-[#f5f5f5] flex">
+      <div className="h-auto w-2/3 ">
         <div
           className="flex bg-white pl-10 pt-2 rounded-lg"
           onClick={() => {
@@ -84,7 +102,7 @@ const Cart = () => {
           }}
         >
           <Fab>
-            <HomeIcon sx={{ fontSize: 40, color: "red" }} />
+            <HomeIcon sx={{ fontSize: 40, color: "#ee4d2d" }} />
           </Fab>
           <div className="flex-1 text-center p-4 text-2xl bg-white  text-[#ee4d2d]">
             購物車
@@ -126,56 +144,145 @@ const Cart = () => {
           </div>
         )}
       </div>
-      <div className="h-full w-full flex-1 bg-[#f5f5f5] px-4 border p-2 rounded-lg">
-        <div className="h-full bg-white rounded-xl shadow-xl flex flex-col">
-          <div className="text-center m-4 text-2xl ">總金額</div>
+      <div className="h-auto  flex-1 bg-[#f5f5f5] px-4 border p-2 rounded-lg">
+        
+          <div className="h-full bg-white rounded-xl shadow-xl flex flex-col ">
+            <div className="text-center m-4 text-2xl">總金額</div>
 
-          <div className="">
-            <div className="grid grid-cols-5 gap-6 ">
-              <div className="font-bold">名稱</div>
-              <div className="font-bold">類別</div>
-              <div className="font-bold">數量</div>
-              <div className="font-bold">金額</div>
-              <div className="font-bold">項目總金額</div>
-            </div>
-            {cartCheckOutItem.map((item, index) => (
-              <div
-                key={`checkout_${index}`}
-                className="grid grid-cols-5 gap-6 items-center mt-4"
-              >
-                <p>{item.name}</p>
-                <p>{item.beetletype}</p>
+            <div className="">
+              <div className="grid grid-cols-5 gap-6 ">
+                <div className="font-bold">名稱</div>
+                <div className="font-bold">類別</div>
+                <div className="font-bold">數量</div>
+                <div className="font-bold">金額</div>
+                <div className="font-bold">項目總金額</div>
+              </div>
+              {cartCheckOutItem.map((item, index) => (
+                <div
+                  key={`checkout_${index}`}
+                  className="grid grid-cols-5 gap-6 items-center mt-4"
+                >
+                  <p>{item.name}</p>
+                  <p>{item.beetletype}</p>
 
-                <div className="flex cursor-pointer hover text-lg">
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleMinusItem(index);
-                    }}
-                  >
-                    <RemoveIcon className="hover:bg-gray-200 rounded-md" />
+                  <div className="flex cursor-pointer hover text-lg">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleMinusItem(index);
+                      }}
+                    >
+                      <RemoveIcon className="hover:bg-gray-200 rounded-md" />
+                    </div>
+                    {item.quantity}
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddItem(index);
+                      }}
+                    >
+                      <AddIcon className="hover:bg-gray-200 rounded-md" />
+                    </div>
                   </div>
-                  {item.quantity}
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddItem(index);
-                    }}
-                  >
-                    <AddIcon className="hover:bg-gray-200 rounded-md" />
+
+                  <p>{item.price}</p>
+                  <p>{item.price * item.quantity}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className=" mt-20 w-full h-px  bg-slate-200 ">
+              <div className=" p-4 text-lg font-bold">總金額:{total}元</div>
+              <form className="p-4">
+                <div className="p-4 grid gap-y-2">
+                  <FormControl fullWidth>
+                    <InputLabel id="sent_way">寄送選擇</InputLabel>
+                    <Select
+                      labelId="sent_way"
+                      id="select_sent_way"
+                      value={sent}
+                      label="寄送選擇"
+                      onChange={handleSelectSent}
+                    >
+                      <MenuItem value="店到店">店到店</MenuItem>
+                      <MenuItem value="黑貓宅配">黑貓宅配</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <div className="grid gap-y-2">
+                    <TextField
+                      id="name"
+                      label="姓名"
+                      variant="outlined"
+                      fullWidth
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                    />
+
+                    <TextField
+                      id="phoneNumber"
+                      label="電話"
+                      variant="outlined"
+                      fullWidth
+                      value={phone}
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                      }}
+                    />
+
+                    <TextField
+                      id="address"
+                      label="寄送地址"
+                      variant="outlined"
+                      fullWidth
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                      }}
+                    />
                   </div>
                 </div>
-
-                <p>{item.price}</p>
-                <p>{item.price * item.quantity}</p>
-              </div>
-            ))}
+                <div className="p-4">
+                  給賣家的備註:
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    size="small"
+                    type="text"
+                    value={note}
+                    onChange={(e) => {
+                      setNote(e.target.value);
+                    }}
+                  />
+                  <div className="flex justify-center mt-6">
+                    <Button
+                      className="bg-blue-400 text-white p-2"
+                      onClick={(e) => {
+                        localStorage.setItem(
+                          "sent_method",
+                          JSON.stringify(sent)
+                        );
+                        localStorage.setItem("Name", JSON.stringify(name));
+                        localStorage.setItem(
+                          "Phone_Number",
+                          JSON.stringify(phone)
+                        );
+                        localStorage.setItem("Adress", JSON.stringify(address));
+                        localStorage.setItem("Note", JSON.stringify(note));
+                      }}
+                    >
+                      送單給賣家
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            
           </div>
-
-          <div className="mt-40 w-full h-px  bg-slate-200">
-            <div className="p-4">總金額:{total}元</div>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

@@ -159,9 +159,9 @@ export const MainPage = () => {
               }
             }}
           >
-            <ShoppingCartIcon sx={{ fontSize: 40, color: "red" }} />
-            <span className="absolute top-0 right-0  w-5 h-5 flex items-end justify-end text-xl rounded-full">
-              {cartCount}
+            <ShoppingCartIcon sx={{ fontSize: 40, color: "#ee4d2d" }} />
+            <span className="absolute bottom-6 left-9  w-5 h-5 flex items-end justify-end text-xl">
+              {user&&cartCount}
             </span>
           </Fab>
         </div>
