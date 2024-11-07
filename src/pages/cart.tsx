@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Product } from "@/components/data";
+import { Product, Lifeproducts } from "@/components/data";
 import CloseIcon from "@mui/icons-material/Close";
 import Fab from "@mui/material/Fab";
 import HomeIcon from "@mui/icons-material/Home";
@@ -147,7 +147,7 @@ const Cart = () => {
           </div>
         )}
       </div>
-      <div className="h-full flex-1 bg-[#f5f5f5] px-4 border p-2 rounded-lg overflow-scroll ">
+      <div className="h-full flex-1 bg-[#f5f5f5] px-4 border p-2 rounded-lg overflow-scroll fixed top-0 right-0 w-1/3">
         <div className=" bg-white rounded-xl shadow-xl flex flex-col">
           <div className=" text-center m-4 text-2xl">總金額</div>
 
@@ -267,23 +267,28 @@ const Cart = () => {
                         : "bg-gray-300 cursor-not-allowed"
                     }`}
                     onClick={(e) => {
+                      
                       if (!FormComplete && cartCheckOutItem.length === 0)
                         return;
-                      localStorage.setItem("sent_method", JSON.stringify(sent));
-                      localStorage.setItem("Name", JSON.stringify(name));
-                      localStorage.setItem(
-                        "Phone_Number",
-                        JSON.stringify(phone)
-                      );
-                      localStorage.setItem("Adress", JSON.stringify(address));
-                      localStorage.setItem("Note", JSON.stringify(note));
+                      const res:Product[] = JSON.parse(localStorage.getItem("data") as string)
+                      cartCheckOutItem.forEach(item=>{
+                        const currentIndex = res.findIndex(data=>data.index === item.index )
+                        res[currentIndex].NumberGroups -=   item.quantity
+                        
+                      })
+                      localStorage.setItem("data",JSON.stringify(res))
 
-                      const updateCart = cartCheckOutItem.map(item=>({
-                        ...item,
-                      NumberGroups:item.NumberGroups- item.quantity
-                      }))
+                      localStorage.removeItem("cart")
+                      setCartCheckOutItem([])
                       
-                      localStorage.setItem("cart",JSON.stringify(updateCart) )
+                      // localStorage.setItem("sent_method", JSON.stringify(sent));
+                      // localStorage.setItem("Name", JSON.stringify(name));
+                      // localStorage.setItem(
+                      //   "Phone_Number",
+                      //   JSON.stringify(phone)
+                      // );
+                      // localStorage.setItem("Adress", JSON.stringify(address));
+                      // localStorage.setItem("Note", JSON.stringify(note));
                       alert("已送單");
                       // localStorage.clear();
                     }}

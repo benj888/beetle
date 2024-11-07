@@ -7,13 +7,24 @@ import Fab from "@mui/material/Fab";
 import { useSession, signOut, signIn } from "next-auth/react";
 import AddIcon from "@mui/icons-material/Add";
 import Snackbar from "@mui/material/Snackbar";
+import { useDrawerStore } from "@/store/drawer";
+
+if (typeof window !== "undefined") {
+  if (!localStorage.getItem("data")) {
+    localStorage.setItem("data", JSON.stringify(Lifeproducts));
+  }
+}
+
 export const MainPage = () => {
+  const handleSetVisible = useDrawerStore((state) => state.handleSetVisible);
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const categories = ["國內成蟲", "國外成蟲", "國內幼蟲", "國外幼蟲", "標本"];
 
-  const [filter, setFilter] = useState(Lifeproducts);
+  const [filter, setFilter] = useState(
+    JSON.parse(localStorage.getItem("data") as string)
+  );
   const ArraySpace = Array.from({ length: filter.length }, () => null);
   const [categoryIcon, setCategoryIcon] = useState("");
 
@@ -81,8 +92,9 @@ export const MainPage = () => {
         : [];
 
       const checkcartItem = cart.some(
-        (item: { name: string; id: number }) =>
-          item.name === addtoCart.name && item.id === addtoCart.id
+        // (item: { name: string; id: number }) =>
+        //   item.name === addtoCart.name && item.id === addtoCart.id
+        (item: { index: number }) => item.index === addtoCart.index
       );
 
       if (checkcartItem) {
@@ -123,7 +135,7 @@ export const MainPage = () => {
               <Fab
                 variant="extended"
                 size="medium"
-                className="bg-white border text-lg rounded-lg p-2 cursor-pointer hover:bg-gray-200"
+                className="bg-white border text-lg  p-2  hover:bg-gray-200"
                 onClick={() => {
                   signOut();
                 }}
@@ -137,7 +149,7 @@ export const MainPage = () => {
                 type="submit"
                 variant="extended"
                 size="medium"
-                className="bg-white border text-lg rounded-lg p-2 cursor-pointer hover:bg-gray-200 "
+                className="bg-white border text-lg rounded-lg p-2  hover:bg-gray-200 "
                 onClick={() => {
                   signIn("google");
                 }}
@@ -147,21 +159,23 @@ export const MainPage = () => {
             </>
           )}
           <Fab
-            sx={{
-              height: 38,
-            }}
-            className="cursor-pointer  bg-white rounded-md hover:bg-gray-200"
+          size="large"
+          sx={{height:45,
+            width:60
+          }}
+            className="cursor-pointer  bg-white"
             onClick={() => {
               if (!user) {
                 alert("請先登入帳號");
               } else {
                 router.push("/cart");
+                // handleSetVisible(true);
               }
             }}
           >
             <ShoppingCartIcon sx={{ fontSize: 40, color: "#ee4d2d" }} />
             <span className="absolute bottom-6 left-9  w-5 h-5 flex items-end justify-end text-xl">
-              {user&&cartCount}
+              {user && cartCount}
             </span>
           </Fab>
         </div>
@@ -199,6 +213,7 @@ export const MainPage = () => {
                       onClick={() => {
                         handleAddtoCart(index);
                       }}
+                      disabled={!filter[index].NumberGroups}
                     >
                       <Snackbar
                         open={open}

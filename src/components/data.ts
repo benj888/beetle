@@ -1,5 +1,6 @@
 export interface Product {
   id: number;
+  index:number;
   name: string;
   ScientificName: string;
   Origin: string;
@@ -17,6 +18,7 @@ export interface Product {
 export const Lifeproducts: Product[] = [
   {
     id: 1,
+    index:1,
     name: "麋鹿叉角(K亞種)",
     ScientificName: "Hexarthrius forsteri kiyotamii",
     Origin: "緬甸-實皆",
@@ -32,6 +34,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 1,
+    index:2,
     name: "安達佑實(尼泊爾)",
     ScientificName: "Dorcus antaeus antaeus",
     Origin: "尼泊爾-科當",
@@ -47,6 +50,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 1,
+    index:3,
     name: "安達佑實(北印)",
     ScientificName: "Dorcus antaeus antaeus",
     Origin: "北印-剛托克",
@@ -62,6 +66,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 1,
+    index:4,
     name: "所羅門鋸(M亞種)",
     ScientificName: "Prosopocoilus hasterti moinieri",
     Origin: "所羅門群島",
@@ -77,6 +82,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 2,
+    index:5,
     name: "高砂鋸",
     ScientificName: "Prosopocoilus motschulskii",
     Origin: "彰化-和美",
@@ -92,6 +98,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 2,
+    index:6,
     name: "台灣鬼豔",
     ScientificName: "Odontolabis siva parryi",
     Origin: "宜蘭-頭城",
@@ -108,6 +115,7 @@ export const Lifeproducts: Product[] = [
 
   {
     id: 3,
+    index:7,
     name: "安達佑實(尼泊爾)",
     ScientificName: "Dorcus antaeus antaeus",
     Origin: "尼泊爾-科當",
@@ -124,6 +132,7 @@ export const Lifeproducts: Product[] = [
 
   {
     id: 4,
+    index:8,
     name: "獨角仙",
     ScientificName: "Allomyrina dichotoma",
     Origin: "桃園-復興",
@@ -139,6 +148,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 4,
+    index:9,
     name: "台灣深山",
     ScientificName: "Lucanus formosanus",
     Origin: "桃園-復興",
@@ -154,6 +164,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 4,
+    index:10,
     name: "深山扁",
     ScientificName: "Dorcus kyanrauensis",
     Origin: "",
@@ -169,6 +180,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 4,
+    index:11,
     name: "雞冠細身",
     ScientificName: "Cyclommatus mniszechi",
     Origin: "",
@@ -184,6 +196,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 4,
+    index:12,
     name: "台灣鬼豔",
     ScientificName: "Odontolabis siva parryi",
     Origin: "",
@@ -199,6 +212,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 5,
+    index:13,
     name: "民達那俄扁",
     ScientificName: "",
     Origin: "",
@@ -214,6 +228,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 5,
+    index:14,
     name: "雲頂鹿角",
     ScientificName: "",
     Origin: "",
@@ -229,6 +244,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 5,
+    index:15,
     name: "犀牛叉角",
     ScientificName: "",
     Origin: "",
@@ -244,6 +260,7 @@ export const Lifeproducts: Product[] = [
   },
   {
     id: 5,
+    index:16,
     name: "蘇門寬扁",
     ScientificName: "Dorcus alcides",
     Origin: "蘇門答臘-名古魯",
