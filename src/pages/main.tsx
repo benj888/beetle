@@ -1,11 +1,18 @@
 import { MainPage } from "@/components/MainPage"; 
 import { SessionProvider } from "next-auth/react";
 import { NoSsr } from "@mui/material";
-const Page = () => {
+
+interface Props{
+  category : number
+}
+
+const Page = (prop:Props) => {
+
+
   return (
     <SessionProvider>
       <NoSsr>
-      <MainPage/>
+      <MainPage category={prop.category}/>
       </NoSsr>
     </SessionProvider>
   );

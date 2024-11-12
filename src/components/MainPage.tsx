@@ -1,4 +1,4 @@
-import { Lifeproducts } from "@/components/data";
+import { Lifeproducts, Product } from "@/components/data";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -7,7 +7,8 @@ import Fab from "@mui/material/Fab";
 import { useSession, signOut, signIn } from "next-auth/react";
 import AddIcon from "@mui/icons-material/Add";
 import Snackbar from "@mui/material/Snackbar";
-import { useDrawerStore } from "@/store/drawer";
+// import { useDrawerStore } from "@/store/drawer";
+import {  CategoryList } from "@/content/edata"; 
 
 if (typeof window !== "undefined") {
   if (!localStorage.getItem("data")) {
@@ -15,37 +16,36 @@ if (typeof window !== "undefined") {
   }
 }
 
-export const MainPage = () => {
-  const handleSetVisible = useDrawerStore((state) => state.handleSetVisible);
+
+
+interface Props{
+  category : number
+}
+
+export const MainPage = (prop:Props) => {
+  // const handleSetVisible = useDrawerStore((state) => state.handleSetVisible);
+// console.log(prop)
+
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
-  const categories = ["國內成蟲", "國外成蟲", "國內幼蟲", "國外幼蟲", "標本"];
 
-  const [filter, setFilter] = useState(
+  const [filter, setFilter] = useState<Product[]>(
     JSON.parse(localStorage.getItem("data") as string)
   );
-  const ArraySpace = Array.from({ length: filter.length }, () => null);
+  
+  const filterCategory =  prop.category ? filter.filter(item=>(item.id === prop.category)): filter
+  
+  
+ 
   const [categoryIcon, setCategoryIcon] = useState("");
+  // console.log(categoryIcon)
+  
+  
 
   const [showImages, setShowImages] = useState(Array(filter.length).fill(0));
 
-  const handleFilter = (category: string) => {
-    if (category === "國內成蟲") {
-      setFilter(Lifeproducts.filter((idfilter) => idfilter.id === 2));
-    } else if (category === "國外成蟲") {
-      setFilter(Lifeproducts.filter((idfilter) => idfilter.id === 1));
-    } else if (category === "國內幼蟲") {
-      setFilter(Lifeproducts.filter((idfilter) => idfilter.id === 4));
-    } else if (category === "國外幼蟲") {
-      setFilter(Lifeproducts.filter((idfilter) => idfilter.id === 3));
-    } else if (category === "標本") {
-      setFilter(Lifeproducts.filter((idfilter) => idfilter.id === 5));
-    } else {
-      // setFilter(Lifeproducts);
-      true;
-    }
-  };
+
 
   const { data: session } = useSession();
   const user = session?.user;
@@ -77,7 +77,6 @@ export const MainPage = () => {
     if (reason === "加入購物車") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -107,22 +106,26 @@ export const MainPage = () => {
       }
     }
   };
+
+
+
   return (
     <div className="bg-[#f5f5f5]  flex p-4 h-full ">
       <div className="pt-10 flex flex-col bg-white sm:w-20 md:w-40 gap-6 text-xl rounded-md border items-center ">
-        {categories.map((categoriesItem, index) => (
+        {CategoryList.sort((a,b)=>a.seq-b.seq).map((categoriesItem, index) => (
           <div
             className="hover:scale-110 cursor-pointer "
             key={index}
             onClick={() => {
-              handleFilter(categoriesItem);
-              setCategoryIcon(categoriesItem);
+              router.push(categoriesItem.url)
+              setCategoryIcon(categoriesItem.name);
             }}
           >
-            {categoryIcon === categoriesItem ? (
+            {categoryIcon === categoriesItem.name ? (
               <ArrowRightIcon sx={{ fontSize: 30, color: "red" }} />
             ) : null}
-            {categoriesItem}
+            
+            {categoriesItem.name}
           </div>
         ))}
       </div>
@@ -159,10 +162,8 @@ export const MainPage = () => {
             </>
           )}
           <Fab
-          size="large"
-          sx={{height:45,
-            width:60
-          }}
+            size="large"
+            sx={{ height: 45, width: 60 }}
             className="cursor-pointer  bg-white"
             onClick={() => {
               if (!user) {
@@ -181,11 +182,11 @@ export const MainPage = () => {
         </div>
 
         <div className=" bg-white rounded-md ml-4 grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-y-4   border  p-8 ">
-          {ArraySpace.map((_, index) => (
+          {filterCategory.map((item, index) => (
             <div className="w-80 " key={`space_${index}`}>
               <div className="w-80  border  items-center justify-center rounded-md shadow-md p-2">
                 <img
-                  src={filter[index].imageUrl[showImages[index]]}
+                  src={item.imageUrl[showImages[index]]}
                   className="aspect-[1/1] "
                   onClick={() => {
                     {
@@ -193,15 +194,15 @@ export const MainPage = () => {
                     }
                   }}
                 />
-                <p>名稱:{filter[index].name}</p>
-                <p>學名:{filter[index].ScientificName}</p>
-                <p>產地:{filter[index].Origin}</p>
-                <p>類別:{filter[index].beetletype}</p>
-                <p>累代:{filter[index].generations}</p>
-                <p>尺寸/齡數:{filter[index].beetleSize}</p>
-                {filter[index].id !== 5 && <p>親代:{filter[index].parent}</p>}
-                <p>金額:{filter[index].price}</p>
-                <p>剩餘數量:{filter[index].NumberGroups}</p>
+                <p>名稱:{item.name}</p>
+                <p>學名:{item.ScientificName}</p>
+                <p>產地:{item.Origin}</p>
+                <p>類別:{item.beetletype}</p>
+                <p>累代:{item.generations}</p>
+                <p>尺寸/齡數:{item.beetleSize}</p>
+                {item.id !== 5 && <p>親代:{item.parent}</p>}
+                <p>金額:{item.price}</p>
+                <p>剩餘數量:{item.NumberGroups}</p>
                 <div className=" w-82 ">
                   <div className="flex justify-center">
                     <Fab
@@ -213,7 +214,7 @@ export const MainPage = () => {
                       onClick={() => {
                         handleAddtoCart(index);
                       }}
-                      disabled={!filter[index].NumberGroups}
+                      disabled={!item.NumberGroups}
                     >
                       <Snackbar
                         open={open}
@@ -229,7 +230,7 @@ export const MainPage = () => {
                     </Fab>
                   </div>
                   <div className="border border-black h-20 ">
-                    備註:{filter[index].note}
+                    備註:{item.note}
                   </div>
                 </div>
               </div>
