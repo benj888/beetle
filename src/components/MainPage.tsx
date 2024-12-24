@@ -83,9 +83,9 @@ export const MainPage = (prop:Props) => {
   const handleAddtoCart = (index: number) => {
     const addtoCart = filter[index];
 
-    if (!user) {
-      alert("請先登入帳號");
-    } else {
+    // if (!user) {
+    //   alert("請先登入帳號");
+    // } else {
       const cart = localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart") as string)
         : [];
@@ -104,7 +104,7 @@ export const MainPage = (prop:Props) => {
         setCartCount(cart.length);
         handleClick();
       }
-    }
+    // }
   };
 
 
@@ -132,7 +132,7 @@ export const MainPage = (prop:Props) => {
 
       <div className="overflow-auto  flex-1 ">
         <div className="border flex justify-end p-2 rounded-md ml-4  items-center gap-4 pr-10">
-          {user ? (
+          {/* {user ? (
             <>
               <div>歡迎:{user.name}</div>
               <Fab
@@ -146,7 +146,8 @@ export const MainPage = (prop:Props) => {
                 登出
               </Fab>
             </>
-          ) : (
+          )
+           : (
             <>
               <Fab
                 type="submit"
@@ -160,18 +161,18 @@ export const MainPage = (prop:Props) => {
                 登入
               </Fab>
             </>
-          )}
+          )} */}
           <Fab
             size="large"
             sx={{ height: 45, width: 60 }}
             className="cursor-pointer  bg-white"
             onClick={() => {
-              if (!user) {
-                alert("請先登入帳號");
-              } else {
+              // if (!user) {
+              //   alert("請先登入帳號");
+              // } else {
                 router.push("/cart");
                 // handleSetVisible(true);
-              }
+              // }
             }}
           >
             <ShoppingCartIcon sx={{ fontSize: 40, color: "#ee4d2d" }} />

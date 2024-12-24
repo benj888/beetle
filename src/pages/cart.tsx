@@ -102,7 +102,7 @@ const Cart = () => {
   return (
     <div className="h-full bg-[#f5f5f5] flex">
       
-      <div className="w-2/3 ">
+      <div className="w-full ">
         <div className=" flex bg-white pl-10 pt-2 rounded-lg">
           <div
             onClick={() => {
@@ -119,7 +119,7 @@ const Cart = () => {
               setVisible(true);
             }}
           >
-            <div>購物車</div>
+            <div className="cursor-pointer">購物車</div>
           </div>
         </div>
         {cartCheckOutItem.length === 0 ? (
