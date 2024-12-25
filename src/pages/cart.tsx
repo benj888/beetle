@@ -125,7 +125,7 @@ const Cart = () => {
         {cartCheckOutItem.length === 0 ? (
           <div className="text-center p-10">目前購物車是空的</div>
         ) : (
-          <div className="grid grid-cols-4 p-4 gap-2 bg-[#f5f5f5]">
+          <div className="grid grid-cols-5  p-2 gap-6 bg-[#f5f5f5]">
             {cartCheckOutItem.map((item, index) => (
               <div
                 key={`space_${index}`}
@@ -141,7 +141,7 @@ const Cart = () => {
                     <CloseIcon sx={{ fontSize: 40, color: "red" }} />
                   </Fab>
                 </div>
-                <img className="aspect-[1/1]" src={item.imageUrl[0]} />
+                <img className="border aspect-[1/1]" src={item.imageUrl[0]} />
                 <div className="border">
                   <p>名稱:{item.name}</p>
                   <p>學名:{item.ScientificName}</p>
