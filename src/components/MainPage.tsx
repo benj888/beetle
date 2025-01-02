@@ -131,7 +131,7 @@ export const MainPage = (prop:Props) => {
       </div>
 
       <div className="overflow-auto  flex-1 ">
-        <div className="border flex justify-end p-2 rounded-md ml-4  items-center gap-4 pr-10">
+        <div className="border flex justify-end p-2 rounded-md ml-4  items-center gap-4 pr-10 ">
           {/* {user ? (
             <>
               <div>歡迎:{user.name}</div>
@@ -164,8 +164,8 @@ export const MainPage = (prop:Props) => {
           )} */}
           <Fab
             size="large"
-            sx={{ height: 45, width: 60 }}
-            className="cursor-pointer  bg-white"
+            sx={{ height: 60, width: 60 }}
+            className="cursor-pointer  bg-white "
             onClick={() => {
               // if (!user) {
               //   alert("請先登入帳號");
@@ -175,20 +175,20 @@ export const MainPage = (prop:Props) => {
               // }
             }}
           >
-            <ShoppingCartIcon sx={{ fontSize: 40, color: "#ee4d2d" }} />
+            <ShoppingCartIcon sx={{ fontSize: 40, color: "#ee4d2d" }}/>
             <span className="absolute bottom-6 left-9  w-5 h-5 flex items-end justify-end text-xl">
               {user && cartCount}
             </span>
           </Fab>
         </div>
 
-        <div className=" bg-white rounded-md ml-4 grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-y-4   border  p-8 ">
+        <div className="bg-white rounded-md ml-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 border p-8">
           {filterCategory.map((item, index) => (
-            <div className="w-80 " key={`space_${index}`}>
-              <div className="w-80  border  items-center justify-center rounded-md shadow-md p-2">
+            <div className="" key={`space_${index}`}>
+              <div className="  border  items-center justify-center rounded-md shadow-md p-2 ">
                 <img
                   src={item.imageUrl[showImages[index]]}
-                  className="aspect-[1/1] "
+                  className="aspect-[1/1]"
                   onClick={() => {
                     {
                       handleImageiterator(index);
@@ -218,6 +218,7 @@ export const MainPage = (prop:Props) => {
                       disabled={!item.NumberGroups}
                     >
                       <Snackbar
+                      
                         open={open}
                         autoHideDuration={1000}
                         onClose={handleClose}
